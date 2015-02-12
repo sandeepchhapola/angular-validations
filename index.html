@@ -4,14 +4,50 @@
     <meta charset="UTF-8">
     <script src="//code.jquery.com/jquery-2.1.0.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular.min.js"></script>
-    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.min.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
     <script src="app.js"></script>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css">
     <title>angular-validations</title>
 </head>
-<body>
-<div ng-view></div>
+<body ng-controller="mainCtrl">
+<div class="center col-md-5">
+    <form name="userForm" novalidate>
+        <div class="form-group">
+            <label for="uEmail">Email</label>
+            <input type="email" ng-model="uEmail" required ng-class="{ 'has-error' : userForm.uEmail.$invalid && !userForm.uEmail.$pristine }" class="form-control" name="uEmail" id="uEmail" placeholder="Email">
+            <p ng-show="userForm.uEmail.$invalid" class="help-block error">Enter a valid email</p>
+        </div>
+        <div class="form-group">
+            <label for="uName">Name</label>
+            <input type="text"  ng-model="uName" required ng-class="{ 'has-error' : userForm.uName.$invalid && !userForm.uName.$pristine }" class="form-control" id="uName" name="uName" ng-pattern="/^[a-zA-Z]+$/" placeholder="User Name">
+            <p ng-show="userForm.uName.$error.pattern" class="help-block error">Enter an alphabetic value</p>
+        </div>
+        <div class="form-group">
+            <label for="uMobile">Mobile</label>
+            <input type="text" ng-model="uMobile" required ng-class="{ 'has-error' : userForm.uMobile.$invalid && !userForm.uMobile.$pristine }" class="form-control" id="uMobile" name="uMobile" ng-pattern="/^[0-9]+$/" ng-minlength="10" ng-maxlength="10" placeholder="Mobile Number">
+            <p ng-show="userForm.uMobile.$error.minlength" class="help-block error">Mobile number is too short.</p>
+            <p ng-show="userForm.uMobile.$error.maxlength" class="help-block error">Mobile number is too long.</p>
+            <p ng-show="userForm.uMobile.$error.pattern" class="help-block error">Enter a numeric value</p>
+        </div>
+        <button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid || isFormSubmitted">submit</button>
+    </form>
+</div>
+
+<div ng-show="isFormSubmitted" class="center col-md-5">
+    <h3><strong><u><i>Submitted Data is:</i></u></strong></h3>
+    <div class="form-group">
+        <label for="uEmail">Email</label>
+        <label class="form-control" style="background-color: beige;">{{user.userEmail}}</label>
+    </div>
+    <div class="form-group">
+        <label for="uName">Name</label>
+        <label class="form-control" style="background-color: beige;">{{user.userName}}</label>
+    </div>
+    <div class="form-group">
+        <label for="uMobile">Mobile</label>
+        <label class="form-control" style="background-color: beige;">{{user.userMobile}}</label>
+    </div>
+</div>
 </body>
 </html>
